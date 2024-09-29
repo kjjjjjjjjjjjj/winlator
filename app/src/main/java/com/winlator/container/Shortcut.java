@@ -31,14 +31,15 @@ public class Shortcut {
         File iconFile = null;
         String wmClass = "";
 
-        File[] iconDirs = {container.getIconsDir(64), container.getIconsDir(48), container.getIconsDir(32)};
+        File[] iconDirs = {container.getIconsDir(64), container.getIconsDir(48), container.getIconsDir(32), container.getIconsDir(16)};
         String section = "";
 
         int index;
         for (String line : FileUtils.readLines(file)) {
-            index = line.indexOf("[");
-            if (index != -1) {
-                section = line.substring(index+1, line.indexOf("]", index));
+            line = line.trim();
+            if (line.isEmpty() || line.startsWith("#")) continue; // Skip empty lines and comments
+            if (line.startsWith("[")) {
+                section = line.substring(1, line.indexOf("]"));
             }
             else {
                 index = line.indexOf("=");
